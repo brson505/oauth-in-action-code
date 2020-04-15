@@ -74,6 +74,7 @@ app.get("/authorize", function(req, res){
 		
 		var reqid = randomstring.generate(8);
 		
+		console.log('authorize:query:%s', req.query);
 		requests[reqid] = req.query;
 		
 		res.render('approve', {client: client, reqid: reqid, scope: rscope});
@@ -124,6 +125,9 @@ app.post('/approve', function(req, res) {
 			urlParsed.query.code = code;
 			urlParsed.query.state = query.state; 
 			res.redirect(url.format(urlParsed));
+
+			console.log('approve:url:%s', url.format(urlParsed));
+			
 			return;
 		} else {
 			// we got a response type we don't understand
@@ -155,6 +159,7 @@ app.post("/token", function(req, res){
 		var clientId = querystring.unescape(clientCredentials[0]);
 		var clientSecret = querystring.unescape(clientCredentials[1]);
 	}
+	console.log('body:%s', req.body);
 	
 	// otherwise, check the post body
 	if (req.body.client_id) {
